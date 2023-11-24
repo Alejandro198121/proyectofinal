@@ -16,13 +16,15 @@ public class Controller implements ActionListener {
 	private VentanaInicioSesion ventanaLogin;
 	private VentanaRegistroUsuario ventanaRegister;
 	private ArrayList<Cliente> directorioClientes;
-        private Cliente cliente;
-        private Banco banco;
+	private Cliente cliente;
+	private Banco banco;
+	private ControladorEmail contCorreo;
 
 	public Controller() {
 		menuPrincipal = new Menu_Inicial();
 		ventanaLogin = new VentanaInicioSesion();
 		ventanaRegister = new VentanaRegistroUsuario();
+		contCorreo = new ControladorEmail();
 		asignarOyentes();
 	}
 
@@ -48,17 +50,23 @@ public class Controller implements ActionListener {
 			menuPrincipal.setVisible(false);
 			ventanaRegister.setVisible(true);
 			ventanaRegister.getPanelRegister().setVisible(true);
-		}else if(comando.equals("PANEL_INICIAR_SESION")){
+		} else if (comando.equals("PANEL_INICIAR_SESION")) {
 			System.out.println("verificador del action listener del panel iniciar sesion");
-		}else if(comando.equals("PANEL_REGISTRARME")) {
+		} else if (comando.equals("PANEL_REGISTRARME")) {
 			System.out.println("verificador panel registrarme");
-                        banco= new Banco();
-                        cliente= new Cliente(ventanaRegister.getPanelRegister().getCampoCorreo().getText(),banco.asignarCupo()+"",ventanaRegister.getPanelRegister().getCampoNombre().getText(),ventanaRegister.getPanelRegister().geteGenero().getSelectedItem()+" ",ventanaRegister.getPanelRegister().getCampoUsuario().getText(),ventanaRegister.getPanelRegister().getCampoContrasena().getText());
-                        System.out.println(cliente.toString());
-		}else if(comando.equals("VOLVER_INICIO_SESION")) {
+			banco = new Banco();
+			cliente = new Cliente(ventanaRegister.getPanelRegister().getCampoCorreo().getText(),
+					banco.asignarCupo() + "", ventanaRegister.getPanelRegister().getCampoNombre().getText(),
+					ventanaRegister.getPanelRegister().geteGenero().getSelectedItem() + " ",
+					ventanaRegister.getPanelRegister().getCampoUsuario().getText(),
+					ventanaRegister.getPanelRegister().getCampoContrasena().getText());
+			System.out.println(cliente.toString());
+			
+			contCorreo.enviarEmail(ventanaRegister.getPanelRegister().getCampoCorreo().getText());
+		} else if (comando.equals("VOLVER_INICIO_SESION")) {
 			ventanaLogin.setVisible(false);
 			menuPrincipal.setVisible(true);
-		}else if(comando.equals("VOLVER_INICIO_REGISTRO")) {
+		} else if (comando.equals("VOLVER_INICIO_REGISTRO")) {
 			ventanaRegister.setVisible(false);
 			menuPrincipal.setVisible(true);
 		}
