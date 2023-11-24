@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package view;
 
 import java.awt.Graphics;
@@ -8,6 +12,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -44,6 +49,10 @@ public class PanelInicioSesion extends JPanel {
 		}
 	}
 
+        public void mensajeErrorInicioSesion(){
+            JOptionPane.showMessageDialog(null, "Usuario/Contraseña Incorrectos");
+        }
+        
 	public void inicializarComponentes() {
 		eUsuario = new JLabel("Usuario: ");
 		eUsuario.setBounds(170, 150, 60, 10);

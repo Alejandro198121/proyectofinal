@@ -17,13 +17,12 @@ public class VentanaRegistroUsuario extends JFrame {
 		setTitle("Registro");
 		setSize(700, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBackground(Color.gray);
 		setLayout(new BorderLayout(10, 10));
 		inicializarComponentes();
 
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setVisible(true);
+		setVisible(false);
 	}
 
 	public void inicializarComponentes() {
