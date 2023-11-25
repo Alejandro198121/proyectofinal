@@ -27,7 +27,7 @@ public class MenuCliente extends JFrame {
     private JButton botonOk;
 
     public MenuCliente() {
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 400);
         setTitle("Menu Cliente");
 
@@ -35,7 +35,7 @@ public class MenuCliente extends JFrame {
 
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true);
+        setVisible(false);
     }
 
     public void inicializarComponentes() {

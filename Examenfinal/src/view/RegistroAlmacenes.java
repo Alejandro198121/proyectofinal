@@ -4,39 +4,79 @@
  */
 package view;
 
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
+/**
+ *
+ * @author yanpi
+ */
 public class RegistroAlmacenes extends JFrame {
-    private JPanel panel1, panel2;
-    private Image imagenfondo;
-    private JLabel texto;
-    private JTextField cajatexto;
+
+    private JPanel panelAlmacenes;
+    private JLabel etiquetaSimple;
+    private JButton botonOk;
+
     public RegistroAlmacenes() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(450, 400);
+        setTitle("Registro Almacenes");
+
         inicializarComponentes();
-        setSize(700, 500);
+
+        setResizable(false);
+        setLocationRelativeTo(null);
         setVisible(true);
-        try {
-            URL urlImagen = new URL("https://png.pngtree.com/png-clipart/20190118/ourlarge/pngtree-cartoon-map-green-map-map-illustration-location-map-png-image_447719.jpg");
-            imagenfondo = ImageIO.read(urlImagen);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
-    public void inicializarComponentes(){
-        panel1= new JPanel();
-        texto= new JLabel("Escriba la direccion del almacen");
-        texto.setSize(100,100);
-        cajatexto= new JTextField(25);
-        cajatexto.setSize(100,100);
-        panel1.add(texto);
-        panel1.add(cajatexto);
-        add(panel1);
+
+    public void inicializarComponentes() {
+        panelAlmacenes = new JPanel(null);
+        panelAlmacenes.setBackground(new Color(215, 189, 226));
+        panelAlmacenes.setVisible(true);
+
+        etiquetaSimple = new JLabel("<html>¡Hola de nuevo admin! <br>¿Que desea hacer?<html>");
+        etiquetaSimple.setBounds(110, 80, 400, 80);
+        etiquetaSimple.setFont(new Font("Arial", Font.ITALIC, 22));
+        panelAlmacenes.add(etiquetaSimple);
+        
+        botonOk = new JButton("OK");
+        botonOk.setActionCommand("OK_BOTON_ADMIN");
+        botonOk.setBounds(160, 310, 100, 30);
+        panelAlmacenes.add(botonOk);
+
+        this.add(panelAlmacenes);
     }
+
+    public JPanel getpanelAlmacenes() {
+        return panelAlmacenes;
+    }
+
+    public void setpanelAlmacenes(JPanel panelAlmacenes) {
+        this.panelAlmacenes = panelAlmacenes;
+    }
+
+    public JLabel getetiquetaSimple() {
+        return etiquetaSimple;
+    }
+
+    public void setetiquetaSimple(JLabel etiquetaSimple) {
+        this.etiquetaSimple = etiquetaSimple;
+    }
+
+    public JButton getBotonOk() {
+        return botonOk;
+    }
+
+    public void setBotonOk(JButton botonOk) {
+        this.botonOk = botonOk;
+    }
+
 }

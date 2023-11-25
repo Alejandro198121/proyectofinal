@@ -44,7 +44,7 @@ public class PanelRegistroUsuario extends JPanel {
 
 		inicializarComponentes();
 
-		setVisible(true);
+		setVisible(false);
 	}
 
 	@Override

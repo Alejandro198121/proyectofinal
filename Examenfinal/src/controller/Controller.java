@@ -14,6 +14,8 @@ import modelo.Persona;
 import view.MenuAdmin;
 import view.MenuCliente;
 import view.Menu_Inicial;
+import view.PanelRegistroUsuario;
+import view.RegistroAlmacenes;
 import view.VentanaInicioSesion;
 import view.VentanaRegistroUsuario;
 
@@ -22,13 +24,16 @@ public class Controller implements ActionListener {
     private Menu_Inicial menuPrincipal;
     private VentanaInicioSesion ventanaLogin;
     private VentanaRegistroUsuario ventanaRegister;
-    private ArrayList<Cliente> directorioClientes;
     private Cliente cliente;
     private Banco banco;
     private ControladorEmail contCorreo;
     private Persona admin;
     private MenuAdmin menuadmin;
     private MenuCliente menuCliente;
+    private PanelRegistroUsuario panelregistrousuario;
+    private RegistroAlmacenes panelAlmacenes;
+    
+    public ArrayList<Cliente> directorioClientes;
 
     public Controller() {
         menuPrincipal = new Menu_Inicial();
@@ -38,6 +43,8 @@ public class Controller implements ActionListener {
         admin = new Persona("Carlo Collodi", "Hombre", "pinocho", "1234");
         menuadmin = new MenuAdmin();
         menuCliente = new MenuCliente();
+        directorioClientes = new ArrayList<Cliente>();
+        panelAlmacenes = new RegistroAlmacenes();
         asignarOyentes();
     }
 
@@ -66,12 +73,27 @@ public class Controller implements ActionListener {
             ventanaRegister.setVisible(true);
             ventanaRegister.getPanelRegister().setVisible(true);
         } else if (comando.equals("PANEL_INICIAR_SESION")) {
+            boolean datosCorrectos = false;
+
             if (ventanaLogin.getPanelSesion().getCampoUsuario().getText().equalsIgnoreCase("pinocho") && ventanaLogin.getPanelSesion().getCampoContrasena().getText().equalsIgnoreCase("1234")) {
-                System.out.println("Funciona admin");
                 ventanaLogin.setVisible(false);
                 menuadmin.setVisible(true);
-            } else {
-                ventanaLogin.getPanelSesion().mensajeErrorInicioSesion();
+                datosCorrectos = true;
+            }
+            if (!datosCorrectos) {
+
+                for (int i = 0; i < directorioClientes.size(); i++) {
+                    if (ventanaLogin.getPanelSesion().getCampoUsuario().getText().equals(directorioClientes.get(i).getUsuario()) && ventanaLogin.getPanelSesion().getCampoContrasena().getText().equals(directorioClientes.get(i).getContrasena())) {
+                        ventanaLogin.setVisible(false);
+                        menuCliente.setVisible(true);
+                        datosCorrectos = true;
+                        break;
+                    }
+                }
+
+                if (!datosCorrectos) {
+                    ventanaLogin.getPanelSesion().mensajeErrorInicioSesion();
+                }
             }
         } else if (comando.equals("PANEL_REGISTRARME")) {
             System.out.println("verificador panel registrarme");
@@ -82,8 +104,13 @@ public class Controller implements ActionListener {
                     ventanaRegister.getPanelRegister().getCampoUsuario().getText(),
                     ventanaRegister.getPanelRegister().getCampoContrasena().getText());
             System.out.println(cliente.toString());
-
+            directorioClientes.add(cliente);
             contCorreo.enviarEmail(ventanaRegister.getPanelRegister().getCampoCorreo().getText());
+            int aux = contCorreo.mensajeConfirmacion();
+            if (aux == 0) {
+                ventanaRegister.setVisible(false);
+                ventanaLogin.setVisible(true);
+            }
         } else if (comando.equals("VOLVER_INICIO_SESION")) {
             ventanaLogin.setVisible(false);
             menuPrincipal.setVisible(true);
@@ -100,7 +127,7 @@ public class Controller implements ActionListener {
             } else if (menuadmin.getOpciones().getSelectedItem().equals("REPORTES ANALÍTICOS")) {
                 System.out.println("4");
             }
-        }else if(comando.equals("OK_BOTON_CLIENTE")) {
+        } else if (comando.equals("OK_BOTON_CLIENTE")) {
             if (menuCliente.getOpciones().getSelectedItem().equals("REGISTRO DE PAREJAS")) {
                 System.out.println("1");
             } else if (menuCliente.getOpciones().getSelectedItem().equals("ASIGNACIÓN DE HORARIOS (DIA-HORA POR LUGAR)")) {

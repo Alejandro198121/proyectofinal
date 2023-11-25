@@ -23,7 +23,7 @@ public class Menu_Inicial extends JFrame {
 
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setVisible(false);
+		setVisible(true);
 	}
 
 	public void inicializarComponentes() {

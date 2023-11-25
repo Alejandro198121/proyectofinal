@@ -27,7 +27,7 @@ public class MenuAdmin extends JFrame {
     private JButton botonOk;
 
     public MenuAdmin() {
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 400);
         setTitle("Menu Admin");
 
