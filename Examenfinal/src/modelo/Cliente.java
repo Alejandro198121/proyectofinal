@@ -65,7 +65,7 @@ public class Cliente extends Persona{
 
     @Override
     public String toString() {
-        return ("nombre "+getNombre()+" genero "+getGenero()+"tarjeta "+getTarjetaCredito()+" correo "+getCorreo()+" usuario "+getUsuario()+" contraseña "+getContrasena());
+        return ("nombre "+getNombre()+"\ngenero "+getGenero()+"\ntarjeta "+getTarjetaCredito()+"\ncorreo "+getCorreo()+"\nusuario "+getUsuario()+"\ncontraseña "+getContrasena());
     }
 
     

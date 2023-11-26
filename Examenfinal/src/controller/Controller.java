@@ -7,15 +7,18 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import modelo.Almacen;
 import modelo.Banco;
 
 import modelo.Cliente;
 import modelo.Persona;
+import view.Mensajero;
 import view.MenuAdmin;
 import view.MenuCliente;
 import view.Menu_Inicial;
 import view.PanelRegistroUsuario;
 import view.RegistroAlmacenes;
+import view.RegistroParejas;
 import view.VentanaInicioSesion;
 import view.VentanaRegistroUsuario;
 
@@ -32,8 +35,11 @@ public class Controller implements ActionListener {
     private MenuCliente menuCliente;
     private PanelRegistroUsuario panelregistrousuario;
     private RegistroAlmacenes panelAlmacenes;
-    
-    public ArrayList<Cliente> directorioClientes;
+    private Mensajero mensajero;
+    private RegistroParejas ventanaRegistroParejas;
+
+    private ArrayList<Cliente> directorioClientes;
+    private ArrayList<Almacen> directorioAlmacenes;
 
     public Controller() {
         menuPrincipal = new Menu_Inicial();
@@ -44,7 +50,10 @@ public class Controller implements ActionListener {
         menuadmin = new MenuAdmin();
         menuCliente = new MenuCliente();
         directorioClientes = new ArrayList<Cliente>();
+        directorioAlmacenes = new ArrayList<Almacen>();
         panelAlmacenes = new RegistroAlmacenes();
+        mensajero = new Mensajero();
+        ventanaRegistroParejas = new RegistroParejas();
         asignarOyentes();
     }
 
@@ -58,6 +67,10 @@ public class Controller implements ActionListener {
         ventanaRegister.getPanelRegister().getBotonVolver().addActionListener(this);
         menuadmin.getBotonOk().addActionListener(this);
         menuCliente.getBotonOk().addActionListener(this);
+        panelAlmacenes.getBotonSalir().addActionListener(this);
+        panelAlmacenes.getBotonOk().addActionListener(this);
+        menuadmin.getBotonSalir().addActionListener(this);
+        menuCliente.getBotonSalir().addActionListener(this);
     }
 
     @Override
@@ -96,7 +109,8 @@ public class Controller implements ActionListener {
                 }
             }
         } else if (comando.equals("PANEL_REGISTRARME")) {
-            System.out.println("verificador panel registrarme");
+            boolean usuarioRepetido = false;
+            contCorreo.setErrorEmail(false);
             banco = new Banco();
             cliente = new Cliente(ventanaRegister.getPanelRegister().getCampoCorreo().getText(),
                     banco.asignarCupo() + "", ventanaRegister.getPanelRegister().getCampoNombre().getText(),
@@ -104,13 +118,31 @@ public class Controller implements ActionListener {
                     ventanaRegister.getPanelRegister().getCampoUsuario().getText(),
                     ventanaRegister.getPanelRegister().getCampoContrasena().getText());
             System.out.println(cliente.toString());
-            directorioClientes.add(cliente);
-            contCorreo.enviarEmail(ventanaRegister.getPanelRegister().getCampoCorreo().getText());
-            int aux = contCorreo.mensajeConfirmacion();
-            if (aux == 0) {
-                ventanaRegister.setVisible(false);
-                ventanaLogin.setVisible(true);
+
+            for (Cliente clienteExistente : directorioClientes) {
+                if (cliente.getUsuario().equals(clienteExistente.getUsuario())) {
+                    usuarioRepetido = true;
+                }
             }
+
+            if (usuarioRepetido) {
+                mensajero.mostrarMensaje("Este nombre de ususario ya esta en uso");
+            } else {
+                directorioClientes.add(cliente);
+                contCorreo.enviarEmail(ventanaRegister.getPanelRegister().getCampoCorreo().getText());
+
+                if (!contCorreo.isErrorEmail()) {
+                    int aux = contCorreo.mensajeConfirmacion();
+                    if (aux == 0) {
+                        ventanaRegister.setVisible(false);
+                        ventanaLogin.setVisible(true);
+                    }
+                }else{
+                    directorioClientes.remove(cliente);
+                }
+
+            }
+
         } else if (comando.equals("VOLVER_INICIO_SESION")) {
             ventanaLogin.setVisible(false);
             menuPrincipal.setVisible(true);
@@ -119,7 +151,7 @@ public class Controller implements ActionListener {
             menuPrincipal.setVisible(true);
         } else if (comando.equals("OK_BOTON_ADMIN")) {
             if (menuadmin.getOpciones().getSelectedItem().equals("REGISTRO DE TIENDAS DE MERCADO (ALMACENES)")) {
-                System.out.println("1");
+                panelAlmacenes.setVisible(true);
             } else if (menuadmin.getOpciones().getSelectedItem().equals("REGISTRO DE CLIENTES")) {
                 System.out.println("2");
             } else if (menuadmin.getOpciones().getSelectedItem().equals("ABONO A TARJETA DE CRÉDITO (LIBERACIÓN DE CUPO)")) {
@@ -137,6 +169,33 @@ public class Controller implements ActionListener {
             } else if (menuCliente.getOpciones().getSelectedItem().equals("PAGOS CON TARJETA DE CRÉDITO")) {
                 System.out.println("4");
             }
+        } else if (comando.equals("SALIR_REGISTRO")) {
+            panelAlmacenes.setVisible(false);
+            menuadmin.setVisible(true);
+        } else if (comando.equals("REGISTRAR_ALMACEN_BOTON")) {
+            boolean seRepite = false;
+            Almacen x = new Almacen(panelAlmacenes.getLista_Lugares().getSelectedItem() + "");
+
+            for (Almacen almacenExistente : directorioAlmacenes) {
+                if (x.getLugar().equals(almacenExistente.getLugar())) {
+                    seRepite = true;
+                }
+            }
+
+            if (seRepite) {
+                mensajero.mostrarMensaje("ya hay un almacen en este lugar");
+            } else {
+                directorioAlmacenes.add(x);
+                panelAlmacenes.mensajeConfirmacion((String) panelAlmacenes.getLista_Lugares().getSelectedItem());
+                System.out.println(x.toString());
+            }
+
+        } else if (comando.equals("SALIR_MENUADMIN")) {
+            ventanaLogin.setVisible(true);
+            menuadmin.setVisible(false);
+        } else if (comando.equals("SALIR_MENUCLIENTE")) {
+            ventanaLogin.setVisible(true);
+            menuCliente.setVisible(false);
         }
     }
 }

@@ -5,10 +5,7 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,18 +16,18 @@ import javax.swing.JPanel;
  *
  * @author yanpi
  */
-public class MenuAdmin extends JFrame {
+public class RegistroParejas extends JFrame {
 
-    private JPanel panelAdmin;
+    private JPanel panelPareja;
     private JLabel eOpciones;
     private JComboBox<String> opciones;
     private JButton botonOk;
     private JButton botonSalir;
 
-    public MenuAdmin() {
+    public RegistroParejas() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 400);
-        setTitle("Menu Admin");
+        setTitle("Menu Cliente");
 
         inicializarComponentes();
 
@@ -40,39 +37,42 @@ public class MenuAdmin extends JFrame {
     }
 
     public void inicializarComponentes() {
-
-        panelAdmin = new JPanel(null);
-        panelAdmin.setBackground(new Color(214, 234, 248));
-        panelAdmin.setVisible(true);
+        panelPareja = new JPanel(null);
+        panelPareja.setBackground(new Color(251, 198, 248));
+        panelPareja.setVisible(true);
 
         botonSalir = new JButton("Salir");
         botonSalir.setBounds(20, 320, 100, 30);
-        botonSalir.setActionCommand("SALIR_MENUADMIN");
-        panelAdmin.add(botonSalir);
+        botonSalir.setActionCommand("SALIR_MENUCLIENTE");
+        panelPareja.add(botonSalir);
 
-        eOpciones = new JLabel("<html>¡Hola de nuevo admin! <br>¿Que desea hacer?<html>");
+        eOpciones = new JLabel("<html>¡Hola Cliente! <br>¿Que desea hacer?<html>");
         eOpciones.setBounds(110, 80, 400, 80);
         eOpciones.setFont(new Font("Arial", Font.ITALIC, 22));
-        panelAdmin.add(eOpciones);
+        panelPareja.add(eOpciones);
 
         opciones = new JComboBox<String>();
         opciones.setBounds(30, 200, 380, 30);
-        opciones.addItem("REGISTRO DE TIENDAS DE MERCADO (ALMACENES)");
-        opciones.addItem("REGISTRO DE CLIENTES");
-        opciones.addItem("ABONO A TARJETA DE CRÉDITO (LIBERACIÓN DE CUPO)");
-        opciones.addItem("REPORTES ANALÍTICOS");
-        panelAdmin.add(opciones);
+        opciones.addItem("REGISTRO DE PAREJAS");
+        opciones.addItem("ASIGNACIÓN DE HORARIOS (DIA-HORA POR LUGAR)");
+        opciones.addItem("ASIGNACIÓN DE CUPO DE TARJETA DE CRÉDITO");
+        opciones.addItem("PAGOS CON TARJETA DE CRÉDITO");
+        panelPareja.add(opciones);
 
         botonOk = new JButton("OK");
-        botonOk.setActionCommand("OK_BOTON_ADMIN");
+        botonOk.setActionCommand("OK_BOTON_CLIENTE");
         botonOk.setBounds(160, 310, 100, 30);
-        panelAdmin.add(botonOk);
+        panelPareja.add(botonOk);
 
-        this.add(panelAdmin);
+        this.add(panelPareja);
     }
 
-    public JPanel getPanelAdmin() {
-        return panelAdmin;
+    public JPanel getPanelPareja() {
+        return panelPareja;
+    }
+
+    public void setPanelPareja(JPanel panelPareja) {
+        this.panelPareja = panelPareja;
     }
 
     public JButton getBotonSalir() {
@@ -81,10 +81,6 @@ public class MenuAdmin extends JFrame {
 
     public void setBotonSalir(JButton botonSalir) {
         this.botonSalir = botonSalir;
-    }
-
-    public void setPanelAdmin(JPanel panelAdmin) {
-        this.panelAdmin = panelAdmin;
     }
 
     public JLabel geteOpciones() {

@@ -18,8 +18,10 @@ public class ControladorEmail {
     /**
      * @param args the command line arguments
      */
+    
+    boolean errorEmail = false;
     public ControladorEmail() {
-
+        
     }
 
     public void enviarEmail(String correo) {
@@ -32,8 +34,8 @@ public class ControladorEmail {
         int z = JOptionPane.showConfirmDialog(null, "Se ha enviado una confirmacion a su correo", "Mensaje de confirmacion", JOptionPane.PLAIN_MESSAGE);
         return z;
     }
-
-    public static void transferirimail(String correo) {
+    
+    public void transferirimail(String correo) {
         String correoEnvia = "yanpis2018@gmail.com";
         String contraseña = "eycq hgrl yquc ydxu";
         String mensaje = "sexo";
@@ -63,7 +65,16 @@ public class ControladorEmail {
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "error");
+            setErrorEmail(true);
         }
+    }
+
+    public boolean isErrorEmail() {
+        return errorEmail;
+    }
+
+    public void setErrorEmail(boolean errorEmail) {
+        this.errorEmail = errorEmail;
     }
 
 }

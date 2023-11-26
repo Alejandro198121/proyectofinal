@@ -25,7 +25,8 @@ public class MenuCliente extends JFrame {
     private JLabel eOpciones;
     private JComboBox<String> opciones;
     private JButton botonOk;
-
+    private JButton botonSalir;
+    
     public MenuCliente() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 400);
@@ -43,7 +44,12 @@ public class MenuCliente extends JFrame {
         panelCliente.setBackground(new Color(171, 235, 198));
         panelCliente.setVisible(true);
 
-        eOpciones = new JLabel("<html>¡Hola (nombre de usuario)! <br>¿Que desea hacer?<html>");
+        botonSalir = new JButton("Salir");
+        botonSalir.setBounds(20, 320, 100, 30);
+        botonSalir.setActionCommand("SALIR_MENUCLIENTE");
+        panelCliente.add(botonSalir);
+        
+        eOpciones = new JLabel("<html>¡Hola Cliente! <br>¿Que desea hacer?<html>");
         eOpciones.setBounds(110, 80, 400, 80);
         eOpciones.setFont(new Font("Arial", Font.ITALIC, 22));
         panelCliente.add(eOpciones);
@@ -70,6 +76,14 @@ public class MenuCliente extends JFrame {
 
     public void setPanelCliente(JPanel panelCliente) {
         this.panelCliente = panelCliente;
+    }
+
+    public JButton getBotonSalir() {
+        return botonSalir;
+    }
+
+    public void setBotonSalir(JButton botonSalir) {
+        this.botonSalir = botonSalir;
     }
 
     public JLabel geteOpciones() {
